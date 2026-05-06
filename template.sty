@@ -17,34 +17,46 @@
 \usepackage{tempora}
 \usepackage{newtxmath}
 
+% Подключаем пакет для поддержки шрифтов без засечек (Helvetica/Arial)
+\usepackage[scaled]{helvet} 
+
 %содержание
 \usepackage{tocloft}
 \usepackage{titlesec}
 
-%выравнивание слова СОДЕРЖАНИЕ
-\AtBeginDocument{\renewcommand{\contentsname}{\hfill\fontsize{16pt}{16pt}\bfseries СОДЕРЖАНИЕ \hfill}}
+%выравнивание слова СОДЕРЖАНИЕ (Arial/Helvetica, 16pt, Bold)
+\AtBeginDocument{%
+	\renewcommand{\contentsname}{\hfill\fontsize{16pt}{16pt}\sffamily\bfseries СОДЕРЖАНИЕ \hfill}%
+}
 \AtBeginDocument{\renewcommand{\cftaftertoctitle}{\hfill}}
 
 %жирность оглавления
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 
-%specialsection
+%specialsection (Arial/Helvetica, 16pt, Bold)
 \newcommand{\specialsection}[1]{
-    \phantomsection
-    \fontsize{16pt}{16pt}
-    \begin{center}
-    \textbf{#1}
-    \end{center}
-    \par
-    \normalsize
-    \addcontentsline{toc}{section}{#1}}
+	\phantomsection
+	\begin{center}
+		\fontsize{16pt}{16pt}\sffamily\bfseries #1
+	\end{center}
+	\par
+	\normalsize
+	\addcontentsline{toc}{section}{#1}}
 
-%section
-\titleformat{\section}{\fontsize{16pt}{16pt}\bfseries}{\thesection}{1em}{\centering}
+%section (Arial/Helvetica, 16pt, Bold)
+\titleformat{\section}
+{\fontsize{16pt}{16pt}\sffamily\bfseries}
+{\thesection}
+{1em}
+{\centering}
 
-%subsection
-\titleformat{\subsection}{\fontsize{14pt}{14pt}\bfseries}{\thesubsection}{1em}{\centering}
+%subsection (Arial/Helvetica, 14pt, Bold)
+\titleformat{\subsection}
+{\fontsize{14pt}{14pt}\sffamily\bfseries}
+{\thesubsection}
+{1em}
+{\centering}
 
 %точки в содержании
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
@@ -62,24 +74,26 @@
 %настройка подписей к картинкам
 \usepackage[font=normalfont, figurename=Рисунок, labelsep=endash]{caption}
 
-%cpsconf список литературы
+%cpsconf список литературы (Заголовок Arial/Helvetica, 16pt, Bold)
+\makeatletter
 \renewenvironment{thebibliography}[1]
-    {\bigskip
-    {\centering\fontsize{16pt}{16pt}\bf СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ\par}
-    \addcontentsline{toc}{section}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
-    \smallskip
-    \list{\@biblabel{\@arabic\c@enumiv}}%
-        {\settowidth\labelwidth{\@biblabel{#1}}%
-        \leftmargin\labelwidth
-        \advance\leftmargin\labelsep
-        \@openbib@code
-        \usecounter{enumiv}%
-        \let\p@enumiv\@empty
-        \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-    \sloppy
-    \clubpenalty4000
-    \@clubpenalty \clubpenalty
-    \widowpenalty4000%
-    \sfcode`\.\@m}
-    {\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
-    \endlist}
+{\bigskip
+	{\centering\fontsize{16pt}{16pt}\sffamily\bfseries СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ\par}
+	\addcontentsline{toc}{section}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+	\smallskip
+	\list{\@biblabel{\@arabic\c@enumiv}}%
+	{\settowidth\labelwidth{\@biblabel{#1}}%
+		\leftmargin\labelwidth
+		\advance\leftmargin\labelsep
+		\@openbib@code
+		\usecounter{enumiv}%
+		\let\p@enumiv\@empty
+		\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+	\sloppy
+	\clubpenalty4000
+	\@clubpenalty \clubpenalty
+	\widowpenalty4000%
+	\sfcode`\.\@m}
+{\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
+	\endlist}
+\makeatother
