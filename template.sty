@@ -11,14 +11,24 @@
 \setlength\parindent{12.5mm}
 
 %язык, кодировка, шрифт
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[english, russian]{babel}
-\usepackage{tempora}
-\usepackage{newtxmath}
-
-% Подключаем пакет для поддержки шрифтов без засечек (Helvetica/Arial)
-\usepackage[scaled]{helvet} 
+\usepackage{iftex}
+\ifPDFTeX
+    % Режим pdfLaTeX: максимально близкие аналоги Times New Roman и Arial
+    \usepackage[utf8]{inputenc}
+    \usepackage[T2A]{fontenc}
+    \usepackage[english, russian]{babel}
+    \usepackage{tempora}
+    \usepackage{newtxmath}
+    \usepackage[scaled]{helvet}
+\else
+    % Режим XeLaTeX/LuaLaTeX: точное соответствие требованию Times New Roman + Arial
+    \usepackage{fontspec}
+    \usepackage[english, russian]{babel}
+    \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+    \IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}
+    \usepackage{unicode-math}
+    \IfFontExistsTF{XITS Math}{\setmathfont{XITS Math}}{\setmathfont{TeX Gyre Termes Math}}
+\fi
 
 %содержание
 \usepackage{tocloft}
@@ -70,6 +80,8 @@
 
 %картинки
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 
 %настройка подписей к картинкам
 \usepackage[font=normalfont, figurename=Рисунок, labelsep=endash]{caption}
