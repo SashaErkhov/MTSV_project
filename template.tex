@@ -201,6 +201,30 @@ I_s = k_s I_{light} \max(0, \overline{r} \cdot \overline{v})^{\alpha},
 I_s = k_s I_{light} \max(0, \overline{n} \cdot \overline{h})^{\alpha}.
 \]
 
+Последовательность вычисления освещения по модели Блинна–Фонга показана на рисунке \ref{fig:blinn-phong-scheme}.
+
+\begin{figure}[h]
+	\begin{center}
+		\begin{tikzpicture}[
+			node distance=8mm,
+			stage/.style={rectangle, draw, rounded corners, align=center, text width=0.78\textwidth, minimum height=8mm, font=\small},
+			arrow/.style={-{Latex[length=3mm]}, thick}
+		]
+			\node[stage] (input) {Входные данные: нормаль поверхности $\overline{n}$, направление на источник света $\overline{l}$, направление на наблюдателя $\overline{v}$ и параметры материала};
+			\node[stage, below=of input] (halfvector) {Построение вектора полунаправления $\overline{h} = (\overline{l} + \overline{v}) / \|\overline{l} + \overline{v}\|$};
+			\node[stage, below=of halfvector] (diffuse) {Расчёт диффузной компоненты по скалярному произведению $\overline{n} \cdot \overline{l}$};
+			\node[stage, below=of diffuse] (specular) {Расчёт зеркальной компоненты по скалярному произведению $\overline{n} \cdot \overline{h}$};
+			\node[stage, below=of specular] (result) {Суммирование фоновой, диффузной и зеркальной составляющих и получение итогового цвета пикселя};
+
+			\draw[arrow] (input) -- (halfvector);
+			\draw[arrow] (halfvector) -- (diffuse);
+			\draw[arrow] (diffuse) -- (specular);
+			\draw[arrow] (specular) -- (result);
+		\end{tikzpicture}
+	\end{center}
+	\caption{\label{fig:blinn-phong-scheme}Схема вычисления освещения по модели Блинна--Фонга}
+\end{figure}
+
 Использование скалярного произведения $\overline{n} \cdot \overline{h}$ позволяет избежать явного построения отражённого вектора и уменьшает чувствительность модели к случаям, когда угол между нормалью и направлением света превышает $90^\circ$.
 
 Таким образом, модель Блинна–Фонга обеспечивает более простую и устойчивую реализацию зеркального освещения при сохранении визуально схожего результата.
